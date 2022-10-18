@@ -44,12 +44,11 @@ export default function Dashboard() {
   };
 
   const handleLogout = () => {
-
     localStorage.clear();
     toast.success("Log Out Successful Bye..", {
       position: "top-center",
     });
-    navigate("/login")
+    navigate("/login");
   };
   //stylings
   const styles = StyleSheet.create({
@@ -58,15 +57,15 @@ export default function Dashboard() {
       height: "100%",
       marginTop: "-60px",
     },
-    leftSection: {
-      width: "75%",
-      position: "relative",
-      display: "flex",
-      flexDirection: "column",
-      paddingRight: "25px",
-      paddingLeft: "25px",
-      //width: drawer.drawer ? "70%" : "80%",
-    },
+    // leftSection: {
+    //   width: "75%",
+    //   position: "relative",
+    //   display: "flex",
+    //   flexDirection: "column",
+    //   paddingRight: "25px",
+    //   paddingLeft: "25px",
+    //   //width: drawer.drawer ? "70%" : "80%",
+    // },
     sLeftSection: {
       display: "flex",
       flexDirection: "column",
@@ -110,24 +109,26 @@ export default function Dashboard() {
     },
 
     //right side
-    rightSection: {
-      width: "25%",
-      position: "relative",
-      backgroundColor: "#F9FDF5",
-      paddingRight: "15px",
-      marginTop: "-40px",
-      paddingLeft: "15px",
-      marginRight: "-15px",
+    // rightSection: {
+    //   width: "25%",
+    //   position: "relative",
+    //   backgroundColor: "#F9FDF5",
+    //   paddingRight: "15px",
+    //   marginTop: "-40px",
+    //   paddingLeft: "15px",
+    //   marginRight: "-15px",
 
-      //width: drawer.drawer ? "30%" : "20%",
-    },
-    topRight: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      paddingTop: "40px",
-      width: "100%",
-    },
+    //   //width: drawer.drawer ? "30%" : "20%",
+    // },
+    // topRight: {
+    //   display: "flex",
+    //   alignItems: "center",
+    //   justifyContent: "space-between",
+    //   paddingTop: "40px",
+    //   width: "100%",
+    //   position: "absolute",
+    //   top: 0,
+    // },
     topRightIcon1: {
       // marginRight: drawer.drawer ? "5px" : "10px",
     },
@@ -274,30 +275,42 @@ export default function Dashboard() {
 
   return (
     <Box
-      style={{
-        display: "flex",
+      sx={{
+        display: { lg: "flex" },
         marginTop: "-60px",
-        marginLeft: "-25px",
-        marginRight: "-15px",
+        paddingRight: { xs: "10px", lg: "0" },
+        paddingLeft: { xs: "10px", lg: "0" },
+        position: "relative",
       }}
     >
       {/* left section */}
-      <div className={css(styles.leftSection)}>
+      <Box
+        sx={{
+          width: "100%",
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          pb: 1,
+        }}
+      >
         <div className={css(styles.sLeftSection)}>
           <p className={css(styles.gText)}>
             Good <span style={{ fontWeight: "bold" }}>{greetings}</span>
           </p>
-
         </div>
 
-        <Grid container spacing={2} columns={15}>
-          <Grid item xs={3}>
+        <Grid container spacing={1} columns={{ xs: 2, md: 15 }} sx={{}}>
+          <Grid item xs={2} md={3}>
             {approved.map((approve, index) => (
               <GridOption
                 key={index}
                 Icon={
                   <Icons.Send
-                    sx={{ color: "#767873", width: "39px", height: "39px" }}
+                    sx={{
+                      color: "#767873",
+                      width: "30px",
+                      height: "30px",
+                    }}
                   />
                 }
                 IconTag={approve.status}
@@ -306,13 +319,13 @@ export default function Dashboard() {
               />
             ))}
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2} md={3}>
             {pending.map((pend, index) => (
               <GridOption
                 key={index}
                 Icon={
                   <Icons.LanOutlined
-                    sx={{ color: "#767873", width: "39px", height: "39px" }}
+                    sx={{ color: "#767873", width: "30px", height: "30px" }}
                   />
                 }
                 IconTag={pend.status}
@@ -321,13 +334,13 @@ export default function Dashboard() {
               />
             ))}
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2} md={3}>
             {declined.map((decline, index) => (
               <GridOption
                 key={index}
                 Icon={
                   <Icons.ChairAltOutlined
-                    sx={{ color: "#767873", width: "39px", height: "39px" }}
+                    sx={{ color: "#767873", width: "30px", height: "30px" }}
                   />
                 }
                 IconTag={decline.status}
@@ -336,13 +349,13 @@ export default function Dashboard() {
               />
             ))}
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2} md={3}>
             {expired.map((expire, index) => (
               <GridOption
                 key={index}
                 Icon={
                   <Icons.GroupOutlined
-                    sx={{ color: "#767873", width: "39px", height: "39px" }}
+                    sx={{ color: "#767873", width: "30px", height: "30px" }}
                   />
                 }
                 IconTag={expire.status}
@@ -351,11 +364,11 @@ export default function Dashboard() {
               />
             ))}
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2} md={3}>
             <GridOption
               Icon={
                 <Icons.Functions
-                  sx={{ color: "#767873", width: "39px", height: "39px" }}
+                  sx={{ color: "#767873", width: "30px", height: "30px" }}
                 />
               }
               IconTag="Total"
@@ -420,33 +433,47 @@ export default function Dashboard() {
             <GridBottom text="Dele Product" />
           </Grid>
         </Grid>
-      </div>
+      </Box>
       {/* right section */}
-      <div className={css(styles.rightSection)}>
-        <div className={css(styles.topRight)}>
-          <div className={css(styles.topRightIcon1)}>
+      <Box
+        sx={{
+          width: { xs: "100%", lg: "25%" },
+          position: { md: "relative" },
+          py: 2,
+          pl: { xs: 0, lg: 1 },
+          marginTop: { xs: "20px", lg: "0" },
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+            position: { xs: "absolute" },
+            top: { xs: 15, md: 30, lg: 55 },
+          }}
+        >
+          <Box
+            className={css(styles.topRightIcon1)}
+            sx={{ display: { xs: "none", md: "block" } }}
+          >
             <Icons.Event
-              sx={{ color: "#76ba1b", width: "30px", height: "30px" }}
-            />
-          </div>
-          {/* <div
-            style={{ display: "flex", alignItems: "center", marginTop: "-5px" }}
-          > */}
-          {/* <div style={{ display: "flex", alignItems: "center" }}>
-            <p className={css(styles.topRightP)}>Jan 30, 2022</p>
-            <span
-              style={{
-                color: "#767873",
-                fontSize: "20px",
-                marginTop: "-5px",
-                // paddingRight: drawer.drawer ? "5px" : "10px",
+              sx={{
+                color: "#76ba1b",
+                width: "30px",
+                height: "30px",
               }}
-            >
-              |
-            </span>
-          </div> */}
-          <p className={css(styles.topRightP)}>{moment(new Date()).format('ll')}</p>
-          <span
+            />
+          </Box>
+          <Box
+            className={css(styles.topRightP)}
+            sx={{ display: { xs: "none", md: "block" } }}
+          >
+            {moment(new Date()).format("ll")}
+          </Box>
+          <Box
+            sx={{ display: { xs: "none", md: "block" } }}
             style={{
               color: "#767873",
               fontSize: "20px",
@@ -456,30 +483,30 @@ export default function Dashboard() {
             }}
           >
             |
-          </span>
+          </Box>
 
-          <div className={css(styles.iconNotify)}>
+          <Box className={css(styles.iconNotify)}>
             <Icons.Notifications
               sx={{
                 color: "#FFA500",
                 width: "30px",
                 height: "30px",
                 marginRight: "5px",
+                display: { xs: "none", md: "block" },
               }}
             />
-            <span
+            <Box
+              sx={{ display: { xs: "none", md: "block" } }}
               style={{
                 color: "#767873",
                 fontSize: "20px",
                 marginTop: "-5px",
-
-                // paddingLeft: drawer.drawer ? "5px" : "90px",
               }}
             >
               |
-            </span>
-          </div>
-          <div>
+            </Box>
+          </Box>
+          <Box sx={{ display: { xs: "none", md: "block" } }}>
             <Icons.Person
               sx={{
                 color: "#FFA500",
@@ -495,7 +522,8 @@ export default function Dashboard() {
                 paddingLeft: "10px",
               }}
             />
-          </div>
+          </Box>
+
           <div className={css(styles.topRightIcon2)}>
             <IconButton
               aria-label="more"
@@ -529,21 +557,37 @@ export default function Dashboard() {
               }}
             >
               <NavLink to="/profiles" style={{ textDecoration: "none" }}>
-                <MenuItem sx={[{ color: "#000" }, { '&:active': { color: `${colors.bellefuGreen}` } }]} onClick={handleClose}>
+                <MenuItem
+                  sx={[
+                    { color: "#000" },
+                    { "&:active": { color: `${colors.bellefuGreen}` } },
+                  ]}
+                  onClick={handleClose}
+                >
                   Profile
                 </MenuItem>
               </NavLink>
-              <MenuItem sx={[{ color: "#000" }, { '&:active': { color: `${colors.bellefuGreen}` } }]} onClick={() => handleLogout()}>
+              <MenuItem
+                sx={[
+                  { color: "#000" },
+                  { "&:active": { color: `${colors.bellefuGreen}` } },
+                ]}
+                onClick={() => handleLogout()}
+              >
                 Sign Out
               </MenuItem>
             </Menu>
           </div>
 
           {/* </div> */}
-        </div>
-        <h2 className={css(styles.tRText)}>
+        </Box>
+
+        <Box
+          sx={{ marginBottom: { xs: 5, lg: 7 } }}
+          className={css(styles.tRText)}
+        >
           <span style={{ fontWeight: "bold" }}>Shop</span> Statistics
-        </h2>
+        </Box>
         <Card
           sx={{
             width: "100%",
@@ -834,7 +878,7 @@ export default function Dashboard() {
             </div>
           </CardContent>
         </Card>
-      </div>
+      </Box>
     </Box>
   );
 }
