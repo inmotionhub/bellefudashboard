@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, css } from "aphrodite";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 import { loggedIn, profileDetails, roles } from "../../Features/LoginSlice";
@@ -10,10 +10,9 @@ import {
   CircularProgress,
   Typography,
   Button,
-  Tabs,
-  Tab,
   TextField,
   Fade,
+  Box,
 } from "@mui/material";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -47,7 +46,7 @@ function Login() {
         if (res.data.status) {
           dispatch(loggedIn(res.data.status));
           dispatch(profileDetails(res.data.data));
-          dispatch(roles(res.data.data.role))
+          dispatch(roles(res.data.data.role));
           navigate("/");
           setIsLoading(false);
           toast.success("Login Successful", {
@@ -72,20 +71,8 @@ function Login() {
   const styles = StyleSheet.create({
     container: {
       height: "100vh",
-      width: "100%",
+      width: "100vw",
       display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      // position: "absolute",
-      top: 0,
-      left: 0,
-    },
-    logotypeContainer: {
-      backgroundColor: "white",
-      width: "80%",
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
     },
@@ -94,26 +81,20 @@ function Login() {
       width: "100%",
       height: "100%",
       objectFit: "fill",
-      borderRadius: 3,
-    },
-    logotypeText: {
-      position: "absolute",
-      color: "white",
-      fontWeight: 500,
-      fontSize: 70,
-      marginTop: "30%",
-      whiteSpace: "nowrap",
     },
     formContainer: {
-      width: "40%",
+      maxWidth: 420,
+      minWidth: 370,
       height: "100%",
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
+      paddingRight: 6,
+      paddingLeft: 6,
     },
     form: {
-      width: 420,
+      width: "100%",
     },
     tab: {
       fontWeight: 400,
@@ -219,34 +200,82 @@ function Login() {
     time < 12
       ? "Good Morning"
       : time > 12 && time <= 16
-        ? "Good Afternoon"
-        : "Good Evening ";
+      ? "Good Afternoon"
+      : "Good Evening ";
 
-  const year = date.getFullYear()
+  const year = date.getFullYear();
   return (
     <Grid className={css(styles.container)}>
-      <div className={css(styles.logotypeContainer)}>
+      <Box
+        sx={{
+          position: "relative",
+          display: { xs: "none", md: "flex" },
+          flexDirection: "column",
+          justifyContent: "center",
+          alignContent: "center",
+          backgroundColor: "white",
+          width: "80%",
+          height: "100%",
+        }}
+      >
         <img
           className={css(styles.logotypeImage)}
           src="/images/Bellefu-Front-Image.png"
           alt="logo"
         />
 
-        <img style={{ zIndex: 1000, top: '5%', left: '2%', position: 'absolute', width: '150px', height: '70px' }} src="images/mainlogo.png" alt='error' />
+        <img
+          style={{
+            zIndex: 1000,
+            top: "5%",
+            left: "2%",
+            position: "absolute",
+            width: "150px",
+            height: "70px",
+          }}
+          src="images/mainlogo.png"
+          alt="error"
+        />
 
-        <div className={css(styles.logotypeText)}>
-          <p style={{ marginTop: "-17%" }}>Welcome Admin</p>
-        </div>
-
-      </div>
+        <Box
+          sx={{
+            position: "absolute",
+            color: "white",
+            fontWeight: 500,
+            marginTop: "10%",
+            whiteSpace: "nowrap",
+            width: "100%",
+            textAlign: "center",
+            fontSize: {
+              xs: 30,
+              md: 50,
+              lg: 80,
+            },
+          }}
+        >
+          <p>Welcome Admin</p>
+        </Box>
+      </Box>
+      <Box sx={{ display: { md: "none" } }}>
+        <img
+          style={{
+            zIndex: 1000,
+            top: "5%",
+            left: "2%",
+            position: "absolute",
+            width: "150px",
+            height: "70px",
+          }}
+          src="images/mainlogo.png"
+          alt="error"
+        />
+      </Box>
       <div className={css(styles.formContainer)}>
         <div className={css(styles.form)}>
           <div>
             <p
               style={{
-                alignItems: "center",
-                display: "flex",
-                justifyContent: "center",
+                textAlign: "center",
                 color: "#76BA1B",
                 fontSize: "20px",
                 fontWeight: 600,
