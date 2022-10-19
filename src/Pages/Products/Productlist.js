@@ -18,23 +18,21 @@ import {
   TableCell,
   TableRow,
   Grid,
-  TextField,
   Button,
-  Divider,
   Stack,
+  Box,
 } from "@mui/material";
 
 import * as Icons from "@mui/icons-material";
-import { Box } from "@mui/system";
 import { useSelector } from "react-redux";
 import { loginStatus } from "../../Features/LoginSlice";
 import { StyleSheet, css } from "aphrodite";
 import axios from "axios";
-import { toast } from "react-toastify";
 import moment from "moment";
 import { styled } from "@mui/material/styles";
 import ProductModal from "./ProductModal";
 import Loader from "../../Loader";
+import Paper from "@mui/material/Paper";
 
 const Item = styled("div")(({ theme }) => ({
   padding: theme.spacing(1),
@@ -45,15 +43,15 @@ const Item = styled("div")(({ theme }) => ({
 
 function ProductList() {
   const [open, setOpen] = useState(false);
-  const [open2, setOpen2] = useState(false);
-  const [open3, setOpen3] = useState(false);
+  // const [open2, setOpen2] = useState(false);
+  // const [open3, setOpen3] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [catId, setCatId] = useState(null);
   const [countries, setCountries] = useState(null);
-  const [editCatFilter, setEditCatFilter] = useState("");
-  const [editSubCatFilter, setEditSubCatFilter] = useState("");
-  const [title, setTitle] = useState("");
-  const [country, setCountry] = useState("");
+  // const [editCatFilter, setEditCatFilter] = useState("");
+  // const [editSubCatFilter, setEditSubCatFilter] = useState("");
+  // const [title, setTitle] = useState("");
+  // const [country, setCountry] = useState("");
 
   const [selectcoun3, setSelectcoun3] = useState("");
   const [selectcat, setSelectcat] = useState("");
@@ -72,10 +70,10 @@ function ProductList() {
   const handleOpen = () => setOpen(true);
 
   const lolo = StyleSheet.create({
-    container: {
-      overflow: "hidden",
-      marginTop: "-2%",
-    },
+    // container: {
+    //   overflow: "hidden",
+    //   marginTop: "-2%",
+    // },
 
     con: {
       position: "relative",
@@ -210,11 +208,22 @@ function ProductList() {
   };
 
   return (
-    <div className={css(lolo.container)}>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+    <Box
+      // className={css(lolo.container)}
+      sx={{ width: { xs: "100%" } }}
+    >
+      <Box
+        sx={{
+          display: { lg: "flex" },
+          justifyContent: "space-between",
+          width: "100%",
+        }}
+      >
         <PageTitle title="All Products" />
 
-        <FormControl>
+        <FormControl
+          sx={{ mt: { xs: 1, lg: 0 }, width: { xs: "100%", lg: 300 } }}
+        >
           <InputLabel htmlFor="component-outlined">
             Search Product Name
           </InputLabel>
@@ -226,17 +235,21 @@ function ProductList() {
             label="Search Product Name"
           />
         </FormControl>
-      </div>
+      </Box>
       <Toolbar />
 
-      <div
-        style={{
-          position: "relative",
-          left: isDrawerOpen.drawer ? "37%" : "49%",
+      <Box
+        sx={{
+          // position: "relative",
+          // left: isDrawerOpen.drawer ? "37%" : "49%",
+          display: { lg: "flex" },
+          justifyContent: "flex-end",
         }}
       >
         <form>
-          <FormControl sx={{ m: 1, minWidth: 300 }}>
+          <FormControl
+            sx={{ minWidth: 300, mb: { xs: 1, lg: 0 }, mr: { xs: 0, lg: 1 } }}
+          >
             <InputLabel id="demo-simple-select-helper-label">
               Filter Country
             </InputLabel>
@@ -259,7 +272,7 @@ function ProductList() {
             </Select>
           </FormControl>
 
-          <FormControl sx={{ m: 1, minWidth: 300 }}>
+          <FormControl sx={{ minWidth: 300 }}>
             <InputLabel id="demo-simple-select-helper-label">
               Filter Category
             </InputLabel>
@@ -282,209 +295,215 @@ function ProductList() {
             </Select>
           </FormControl>
         </form>
-      </div>
+      </Box>
       <Toolbar sx={{ mt: -5 }} />
 
       {!isLoading ? (
         <>
-          <TableContainer>
-            <Table aria-label="active-products">
-              <TableHead className={css(lolo.thead)} color="success">
-                <TableRow>
-                  <TableCell className={css(lolo.tcell)}>Products</TableCell>
-                  <TableCell className={css(lolo.tcell)}>Username</TableCell>
-                  <TableCell className={css(lolo.tcell)}>Status</TableCell>
-                  <TableCell className={css(lolo.tcell)}>Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody sx={{ bgcolor: "#ffffff" }}>
-                {productList
-                  ?.filter((item) => {
-                    if (selectcoun3 === "" && selectcat === "") {
-                      return item;
-                    } else if (item.category === catFilter) {
-                      return item;
-                    } else if (item.country === countryID) {
-                      return item;
-                    }
-                    //  else if (
-                    //   item.title
-                    //     .toLowerCase()
-                    //     .includes(state.toLowerCase())
-                    // ) {
-                    //   return item;
-                    // }
-                  })
-                  .map((product, index) => (
-                    <TableRow key={index}>
-                      <TableCell>
-                        <Grid container spacing={3}>
-                          <Grid item xs={3} sx={{ paddingLeft: 0 }}>
-                            <Item>
-                              <img
-                                src={`${ProductImageUrl}${product?.images[0]}`}
-                                alt="iuujhbb"
-                                className={css(lolo.productImg)}
-                              />
-                            </Item>
-                          </Grid>
-                          <Grid
-                            container
-                            item
-                            xs={4}
-                            md={5}
-                            lg={4}
-                            direction="column"
-                            columnSpacing={2}
-                          >
-                            <Grid item>
+          <Paper sx={{ width: "100%", overflowX: "auto" }}>
+            <TableContainer sx={{}}>
+              <Table
+                aria-label="active-products"
+                sx={{ width: "100%", overflowX: "auto" }}
+              >
+                <TableHead className={css(lolo.thead)} color="success">
+                  <TableRow>
+                    <TableCell className={css(lolo.tcell)}>Products</TableCell>
+                    <TableCell className={css(lolo.tcell)}>Username</TableCell>
+                    <TableCell className={css(lolo.tcell)}>Status</TableCell>
+                    <TableCell className={css(lolo.tcell)}>Actions</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {productList
+                    ?.filter((item) => {
+                      if (selectcoun3 === "" && selectcat === "") {
+                        return item;
+                      } else if (item.category === catFilter) {
+                        return item;
+                      } else if (item.country === countryID) {
+                        return item;
+                      }
+                      //  else if (
+                      //   item.title
+                      //     .toLowerCase()
+                      //     .includes(state.toLowerCase())
+                      // ) {
+                      //   return item;
+                      // }
+                    })
+                    .map((product, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          <Grid container spacing={3}>
+                            <Grid item xs={3} sx={{ paddingLeft: 0 }}>
                               <Item>
-                                <Typography
-                                  align="left"
-                                  color="success"
-                                  sx={{
-                                    textOverflow: "ellipsis",
-                                    overflow: "hidden",
-                                    whiteSpace: "nowrap",
-                                    width: "200px",
-                                  }}
-                                >
-                                  {product.title}
-                                </Typography>
+                                <img
+                                  src={`${ProductImageUrl}${product?.images[0]}`}
+                                  alt="iuujhbb"
+                                  className={css(lolo.productImg)}
+                                />
                               </Item>
                             </Grid>
-                            <Grid item>
-                              <Item>
-                                <Stack direction="row" spacing={1}>
-                                  <Icons.LocalOfferOutlined />
-                                  <Typography>{product.category}</Typography>
-                                </Stack>
-                              </Item>
-                            </Grid>
-                            <Grid item>
-                              <Item>
-                                <Stack direction="row" spacing={2}>
-                                  <Icons.LocationOnOutlined />
-                                  <Typography>{product.country}</Typography>
-                                </Stack>
-                              </Item>
-                            </Grid>
-                          </Grid>
-                          <Grid
-                            container
-                            item
-                            xs={2}
-                            direction="column"
-                            columnSpacing={1}
-                          >
-                            <Grid item xs={3}>
-                              <Item>
-                                <Typography className={css(lolo.free)}>
-                                  {product.planname}
-                                </Typography>
-                              </Item>
-                            </Grid>
-                            <Grid item xs={3}>
-                              <Item>
-                                <Typography align="left">Fruits</Typography>
-                              </Item>
-                            </Grid>
-                            <Grid item xs={3}>
-                              <Item>
-                                <Stack direction="row" spacing={1}>
-                                  <Icons.DateRangeOutlined />
-                                  <Typography>
-                                    {moment(product.created_at).format("l")}
-                                  </Typography>
-                                </Stack>
-                              </Item>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </TableCell>
-                      <TableCell>{product.username}</TableCell>
-                      <TableCell>
-                        {product.status === "expired" ||
-                        product.status === "declined" ? (
-                          <Button variant="contained" color="error">
-                            {product.status}
-                          </Button>
-                        ) : product.status === "pending" ? (
-                          <Button variant="contained">{product.status}</Button>
-                        ) : (
-                          <Button
-                            variant="contained"
-                            className={css(lolo.status)}
-                          >
-                            {product.status}
-                          </Button>
-                        )}
-                      </TableCell>
-                      <TableCell align="center" sx={{ width: "12%" }}>
-                        <Grid container spacing={3}>
-                          <Grid item xs={3}>
-                            <Item>
-                              <Tooltip title="View">
-                                <IconButton
-                                  onClick={() => {
-                                    handleOpen();
-                                    setProductId(product.id);
-                                  }}
-                                >
-                                  <Icons.RemoveRedEyeOutlined
-                                    sx={{ color: "#FFA500" }}
-                                  />
-                                </IconButton>
-                              </Tooltip>
-                              <Modal
-                                open={open}
-                                onClose={() => setOpen(false)}
-                                aria-labelledby="modal-modal-title"
-                                aria-describedby="modal-modal-description"
-                                sx={{ opacity: 0.1 }}
-                              >
-                                <Box
-                                  style={{
-                                    maxWidth: "50%",
-                                    marginLeft: "auto",
-                                    marginRight: "auto",
-                                    marginTop: "1%",
-                                    position: "relative",
-                                  }}
-                                >
+                            <Grid
+                              container
+                              item
+                              xs={4}
+                              md={5}
+                              lg={4}
+                              direction="column"
+                              columnSpacing={2}
+                            >
+                              <Grid item>
+                                <Item>
                                   <Typography
-                                    id="modal-modal-title"
-                                    variant="h6"
-                                    component="h2"
+                                    align="left"
+                                    color="success"
+                                    sx={{
+                                      textOverflow: "ellipsis",
+                                      overflow: "hidden",
+                                      whiteSpace: "nowrap",
+                                      width: "200px",
+                                    }}
                                   >
-                                    .
+                                    {product.title}
                                   </Typography>
-                                </Box>
-                              </Modal>
-
-                              {productList
-                                .filter((product) => product.id === productId)
-                                .map((product, index) => (
-                                  <ProductModal
-                                    title="Products List"
-                                    open={open}
-                                    setOpen={setOpen}
-                                    productDetails={product}
-                                    status="Active"
-                                    id={index}
-                                  />
-                                ))}
-                            </Item>
+                                </Item>
+                              </Grid>
+                              <Grid item>
+                                <Item>
+                                  <Stack direction="row" spacing={1}>
+                                    <Icons.LocalOfferOutlined />
+                                    <Typography>{product.category}</Typography>
+                                  </Stack>
+                                </Item>
+                              </Grid>
+                              <Grid item>
+                                <Item>
+                                  <Stack direction="row" spacing={2}>
+                                    <Icons.LocationOnOutlined />
+                                    <Typography>{product.country}</Typography>
+                                  </Stack>
+                                </Item>
+                              </Grid>
+                            </Grid>
+                            <Grid
+                              container
+                              item
+                              xs={2}
+                              direction="column"
+                              columnSpacing={1}
+                            >
+                              <Grid item xs={3}>
+                                <Item>
+                                  <Typography className={css(lolo.free)}>
+                                    {product.planname}
+                                  </Typography>
+                                </Item>
+                              </Grid>
+                              <Grid item xs={3}>
+                                <Item>
+                                  <Typography align="left">Fruits</Typography>
+                                </Item>
+                              </Grid>
+                              <Grid item xs={3}>
+                                <Item>
+                                  <Stack direction="row" spacing={1}>
+                                    <Icons.DateRangeOutlined />
+                                    <Typography>
+                                      {moment(product.created_at).format("l")}
+                                    </Typography>
+                                  </Stack>
+                                </Item>
+                              </Grid>
+                            </Grid>
                           </Grid>
-                        </Grid>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                        </TableCell>
+                        <TableCell>{product.username}</TableCell>
+                        <TableCell>
+                          {product.status === "expired" ||
+                          product.status === "declined" ? (
+                            <Button variant="contained" color="error">
+                              {product.status}
+                            </Button>
+                          ) : product.status === "pending" ? (
+                            <Button variant="contained">
+                              {product.status}
+                            </Button>
+                          ) : (
+                            <Button
+                              variant="contained"
+                              className={css(lolo.status)}
+                            >
+                              {product.status}
+                            </Button>
+                          )}
+                        </TableCell>
+                        <TableCell align="center" sx={{ width: "12%" }}>
+                          <Grid container spacing={3}>
+                            <Grid item xs={3}>
+                              <Item>
+                                <Tooltip title="View">
+                                  <IconButton
+                                    onClick={() => {
+                                      handleOpen();
+                                      setProductId(product.id);
+                                    }}
+                                  >
+                                    <Icons.RemoveRedEyeOutlined
+                                      sx={{ color: "#FFA500" }}
+                                    />
+                                  </IconButton>
+                                </Tooltip>
+                                <Modal
+                                  open={open}
+                                  onClose={() => setOpen(false)}
+                                  aria-labelledby="modal-modal-title"
+                                  aria-describedby="modal-modal-description"
+                                  sx={{ opacity: 0.1 }}
+                                >
+                                  <Box
+                                    style={{
+                                      maxWidth: "50%",
+                                      marginLeft: "auto",
+                                      marginRight: "auto",
+                                      marginTop: "1%",
+                                      position: "relative",
+                                    }}
+                                  >
+                                    <Typography
+                                      id="modal-modal-title"
+                                      variant="h6"
+                                      component="h2"
+                                    >
+                                      .
+                                    </Typography>
+                                  </Box>
+                                </Modal>
 
-          <div
+                                {productList
+                                  .filter((product) => product.id === productId)
+                                  .map((product, index) => (
+                                    <ProductModal
+                                      title="Products List"
+                                      open={open}
+                                      setOpen={setOpen}
+                                      productDetails={product}
+                                      status="Active"
+                                      id={index}
+                                    />
+                                  ))}
+                              </Item>
+                            </Grid>
+                          </Grid>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+          {/* <div
             style={{
               marginTop: "10px",
               display: "flex",
@@ -523,7 +542,7 @@ function ProductList() {
                 </div>
               </IconButton>
             ) : null}
-          </div>
+          </div> */}
         </>
       ) : (
         <div style={{ width: "90%", margin: "auto" }}>
@@ -532,7 +551,7 @@ function ProductList() {
       )}
 
       <Toolbar sx={{ mb: -4 }} />
-    </div>
+    </Box>
   );
 }
 
