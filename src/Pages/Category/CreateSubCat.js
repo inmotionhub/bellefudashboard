@@ -96,18 +96,6 @@ export default function CreateSubCat() {
     }
   };
 
-  // const style = {
-  //   position: "relative",
-  //   top: 220,
-  //   left: "45%",
-  //   transform: "translate(-50%, -50%)",
-  //   width: 850,
-  //   bgcolor: "background.paper",
-
-  //   borderRadius: 5,
-  //   p: 4,
-  // };
-
   const btn = {
     border: "none",
     borderRadius: "5px",
