@@ -2,52 +2,29 @@ import React from "react";
 import { PageTitle } from "../../Constant";
 import axios from "axios";
 import { useState, useEffect } from "react";
-// import { Button, Paper ,Grid, Typography} from "@mui/material";
 import { toast } from "react-toastify";
 import TextField from "@mui/material/TextField";
 import { colors, APIDATA } from "../../Constant";
-import Chart from 'react-apexcharts'
+import Chart from "react-apexcharts";
+import { Toolbar, Button, Paper, Typography, Box } from "@mui/material";
 
-import {
-
-  Toolbar, Button,
-  Paper,
-
-  Typography,
-  Box,
-} from "@mui/material";
 function CreateVoucher() {
   const [voucher, setVoucher] = useState();
   const [quantity, setQuantity] = useState();
   const [stat, setStat] = useState(null);
 
-
-
-
   const styles = {
-    paper: {
-      width: "50vw",
-      padding: 10,
-    },
-    inpts: {
-      margin: 5,
-    },
-    donuts: {
-      marginLeft: 5,
-      padding: 1
-
-    },
     txt: {
       fontSize: 20,
       color: colors.bellefuGreen,
       textAlign: "center",
       fontWeight: "bold",
-      marginBottom: 1.5
+      marginBottom: 1.5,
     },
     smallH: {
       display: "flex",
       justifyContent: "space-between",
-      padding: 2
+      padding: 2,
     },
     btntest1: {
       backgroundColor: "rgb(254, 176, 25)",
@@ -69,154 +46,153 @@ function CreateVoucher() {
     smallH2: {
       display: "flex",
       justifyContent: "space-around",
-      marginTop: 3
-    }
-  }
-
+      marginTop: 3,
+    },
+  };
 
   const onSubmit = () => {
-
-
     if (voucher === undefined || quantity === undefined) {
-      setVoucher('')
-      setQuantity('')
-      toast.error('All fields are required', {
-        position: 'top-right'
-      })
-
+      setVoucher("");
+      setQuantity("");
+      toast.error("All fields are required", {
+        position: "top-right",
+      });
     } else {
-      const formDatas = new FormData()
+      const formDatas = new FormData();
 
-      formDatas.append('voucher_amount', voucher)
-      formDatas.append('voucher_quantity', quantity)
-      formDatas.append('admin_id', 76)
-
+      formDatas.append("voucher_amount", voucher);
+      formDatas.append("voucher_quantity", quantity);
+      formDatas.append("admin_id", 76);
 
       axios({
-        method: 'POST',
+        method: "POST",
         url: `${APIDATA}create/new/voucher`,
         data: formDatas,
         headers: {
           "Content-Type": "multipart/form-data",
-        }
+        },
       })
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
 
-      toast.success('Voucher Generated', {
-        position: 'top-right'
-      })
+      toast.success("Voucher Generated", {
+        position: "top-right",
+      });
 
-
-      setVoucher()
-      setQuantity()
-
-
-
-
-
+      setVoucher();
+      setQuantity();
     }
-
-  }
-
-
+  };
 
   useEffect(() => {
-
     const getprogram = async () => {
-      await axios.get(`${APIDATA}voucher/stats`)
-        .then(res => {
+      await axios
+        .get(`${APIDATA}voucher/stats`)
+        .then((res) => {
           // console.log(res.data.data)
-          setStat(res.data.data)
+          setStat(res.data.data);
         })
-        .catch(err => console.log(err))
-    }
+        .catch((err) => console.log(err));
+    };
 
-    getprogram()
-  }, [])
+    getprogram();
+  }, []);
 
+  const total = stat !== null ? stat[0].count + stat[1].count : null;
+  const consumed = stat !== null ? stat[0].count : null;
+  const created = stat !== null ? stat[1].count : null;
 
-  console.log(stat)
-  const total = stat !== null ? stat[0].count + stat[1].count : null
-  const consumed = stat !== null ? stat[0].count : null
-  const created = stat !== null ? stat[1].count : null
-
-
-
-  var arr = []
+  var arr = [];
 
   for (var i = 0; i < stat?.length; i++) {
-
-    arr.push(stat[i].count, total)
-    console.log('array loop ==>', arr)
+    arr.push(stat[i].count, total);
   }
 
+  const newarr = arr.filter((item) => item !== undefined);
+  const theArr = [...new Set(newarr)];
 
-  const newarr = arr.filter(item => item !== undefined)
-  const theArr = [...new Set(newarr)]
-
-  console.log(' newarr===>', theArr);
-
-
-  const seriesArr = stat?.map(item => item.count)
+  const seriesArr = stat?.map((item) => item.count);
 
   const sum = seriesArr?.reduce((a, b) => a + b, 0);
-
-  console.log(' newarr===>', seriesArr);
-  console.log('sum===>', sum);
 
   const [data, setData] = useState({
     options: {
       series: [31, 33, 2],
-      labels: ['Unused', 'Created', 'Consumed',]
+      labels: ["Unused", "Created", "Consumed"],
     },
-    series: theArr.length > 0 ? theArr : [31, 33, 2]
-  })
+    series: theArr.length > 0 ? theArr : [31, 33, 2],
+  });
   return (
-    <div>
+    <Box
+      sx={{
+        width: "100%",
+        height: "100vh",
+      }}
+    >
       <PageTitle title="Create Vouchers" />
       <Toolbar />
-      <Box style={{ display: "flex" }}>
-        <Box>
-          <Paper sx={styles.paper}>
-            <Box sx={styles.inpts}>
-              <TextField
-                sx={{ position: "relative",
-                left: "7vw", width: 400 }}
-                id="outlined-basic"
-                label="Enter-Voucher-Amount"
-                error={voucher === ''}
-                helperText={voucher === '' ? 'Please enter Voucher Amount' : ''}
-                // borderColor='green'
-                type="text"
-                onChange={(e) => setVoucher(e.target.value)}
-                value={voucher}
-                variant="outlined"
-              />
-            </Box>
-            <Box sx={styles.inpts}>
-              <TextField
-                sx={{ position: "relative",
-                left: "7vw", width: 400 }}
-                id="outlined-basic"
-                label="Enter-Voucher-Quantity"
-                error={quantity === ''}
-                helperText={quantity === '' ? 'Please enter Quantity' : ''}
-                // borderColor='green'
-                type="text"
-                onChange={(e) => setQuantity(e.target.value)}
-                value={quantity}
-                variant="outlined"
-              />
+      <Box
+        sx={{
+          display: { xs: "block", lg: "flex" },
+          width: "100%",
+          columnGap: 15,
+          maxWidth: 1200,
+        }}
+      >
+        <Box sx={{ width: "100%" }}>
+          <Paper
+            sx={{
+              width: { xs: "100%", lg: "50vw" },
+              padding: { xs: 3, lg: 0 },
+              py: { lg: 10 },
+              px: { lg: 5 },
+            }}
+          >
+            <Box
+              sx={{
+                width: "100%",
+                display: { xs: "block", lg: "flex" },
+                columnGap: 10,
+              }}
+            >
+              <Box sx={{ marginBottom: { xs: 3, lg: 0 } }}>
+                <TextField
+                  sx={{ width: { xs: "100%" }, maxWidth: 400 }}
+                  id="outlined-basic"
+                  label="Enter-Voucher-Amount"
+                  error={voucher === ""}
+                  helperText={
+                    voucher === "" ? "Please enter Voucher Amount" : ""
+                  }
+                  type="text"
+                  onChange={(e) => setVoucher(e.target.value)}
+                  value={voucher}
+                  variant="outlined"
+                />
+              </Box>
+              <Box sx={styles.inpts}>
+                <TextField
+                  sx={{
+                    width: { xs: "100%" },
+                    maxWidth: { xs: 400, lg: 600 },
+                  }}
+                  id="outlined-basic"
+                  label="Enter-Voucher-Quantity"
+                  error={quantity === ""}
+                  helperText={quantity === "" ? "Please enter Quantity" : ""}
+                  type="text"
+                  onChange={(e) => setQuantity(e.target.value)}
+                  value={quantity}
+                  variant="outlined"
+                />
+              </Box>
             </Box>
             <Box>
               <Button
                 variant="contained"
                 style={{
-                  position: "relative",
-                  left: "9.7vw",
-                  margin: 10,
-                  width: "20vw",
+                  marginTop: 10,
+                  py: 4,
                   backgroundColor: colors.bellefuGreen,
                 }}
                 onClick={onSubmit}
@@ -226,21 +202,36 @@ function CreateVoucher() {
             </Box>
           </Paper>
         </Box>
-        <Box>
-          <Paper sx={styles.donuts}>
-            <div className="donut">
-              {theArr.length > 0 ? <Chart options={data.options} series={data.series} type="donut" width="320" /> : null}
-            </div>
-            {/* <Donut unused={unused} created={total} consumed={consumed} /> */}
+        <Box
+          sx={{
+            mt: { xs: 3, lg: 0 },
+            pb: 5,
+            display: { xs: "block", md: "flex", lg: "block" },
+            justifyContent: "space-evenly",
+          }}
+        >
+          <Paper
+            sx={{
+              width: { xs: "100%", sm: 600, md: 420 },
+              mx: { xs: "auto", sm: "auto", md: 0 },
+            }}
+          >
+            <Box style={{}}>
+              {theArr.length > 0 ? (
+                <Chart
+                  options={data.options}
+                  series={data.series}
+                  type="donut"
+                  width="100%"
+                />
+              ) : null}
+            </Box>
           </Paper>
 
-          <Toolbar />
-
-          <Paper sx={styles.donuts}>
+          <Paper sx={{ py: 3 }}>
             <Typography variant="h5" sx={styles.txt}>
               Voucher Summary
             </Typography>
-
 
             <Box sx={styles.smallH}>
               <Button variant="contained" style={styles.btntest1}>
@@ -265,22 +256,19 @@ function CreateVoucher() {
             </Box>
             <Box sx={styles.smallH2}>
               <Typography variant="h3" sx={styles.countUp}>
-
                 {consumed}
               </Typography>
               <Typography variant="h3" sx={styles.countUp}>
-
                 {created}
               </Typography>
               <Typography variant="h3" sx={styles.countUp}>
                 {total}
-
               </Typography>
             </Box>
           </Paper>
         </Box>
       </Box>
-    </div>
+    </Box>
   );
 }
 
