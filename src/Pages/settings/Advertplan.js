@@ -2,52 +2,21 @@ import React from "react";
 import { StyleSheet, css } from "aphrodite";
 import { NavLink, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
-import ProductAmountUpdate from './ProductAmountUpdate'
-
+import ProductAmountUpdate from "./ProductAmountUpdate";
+import { Box, Button } from "@mui/material";
 
 function Advertplan() {
   const drawer = useSelector((state) => state.login);
 
   const styles = StyleSheet.create({
     main: {
-      height: "100vh",
-    },
-    container: {
-      width: drawer.drawer ? "80%" : "70%",
-      marginLeft: "auto",
-      marginRight: "auto",
-      border: "0.5px solid #767873",
-      position: "relative",
-      borderRadius: "10px",
-    },
-    navButtons: {
+      height: "calc(100vh - 64px)",
+      px: 1,
       display: "flex",
-      position: "absolute",
-      left: "40px",
-      top: "-42px",
+      flexDirection: "column",
+      alignContent: "center",
     },
 
-    buttons: {
-      paddingRight: "10px",
-      fontWeight: "600",
-      fontSize: "24px",
-      lineHeight: "38px",
-      fontFamily: "Poppins",
-      cursor: "pointer",
-      textTransform: "capitalize",
-      border: "none",
-    },
-    buttons2: {
-      cursor: "pointer",
-      fontWeight: "600",
-      fontSize: "24px",
-      lineHeight: "38px",
-      fontFamily: "Poppins",
-      cursor: "pointer",
-      color: "#22261B",
-      textTransform: "capitalize",
-      border: "none",
-    },
     formOptions: {
       display: "flex",
       flexDirection: "column",
@@ -115,9 +84,24 @@ function Advertplan() {
   });
 
   return (
-    <div className={css(styles.main)}>
-      <div className={css(styles.container)}>
-        <div className={css(styles.navButtons)}>
+    <Box className={css(styles.main)}>
+      <Box
+        sx={{
+          width: { xs: "100%", md: "700px" },
+          mx: "auto",
+          border: "0.5px solid #767873",
+          borderRadius: "10px",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            width: { xs: "100%", md: "700px" },
+            justifyContent: "space-around",
+          }}
+        >
           <NavLink
             to="/adsplan"
             end={true}
@@ -126,11 +110,21 @@ function Advertplan() {
               borderBottom: isActive
                 ? "solid 4px #76BA1B"
                 : "solid 4px #ffffff",
+              textDecoration: "unset",
             })}
           >
-            <button className={css(styles.buttons)}>
-              Product amount Update
-            </button>
+            <Button
+              sx={{
+                fontWeight: "600",
+                fontSize: "16px",
+                fontFamily: "Poppins",
+                textTransform: "capitalize",
+                border: "none",
+                width: "100%",
+              }}
+            >
+              amount Update
+            </Button>
           </NavLink>
           <NavLink
             to="/adsplan/adsDurationPlan"
@@ -139,20 +133,36 @@ function Advertplan() {
               borderBottom: isActive
                 ? "solid 4px #76BA1B"
                 : " solid 4px #ffffff",
+              textDecoration: "unset",
             })}
           >
-            <button className={css(styles.buttons2)}>
-              Product duration Update
-            </button>
+            <Button
+              sx={{
+                fontWeight: "600",
+                fontSize: "16px",
+                fontFamily: "Poppins",
+                color: "#22261B",
+                textTransform: "capitalize",
+                border: "none",
+                width: "100%",
+              }}
+            >
+              duration Update
+            </Button>
           </NavLink>
-        </div>
+        </Box>
 
         <div>
-          {window.location.pathname === 'adsplan' ? <>  <ProductAmountUpdate /> </> : <Outlet />}
-
+          {window.location.pathname === "adsplan" ? (
+            <>
+              <ProductAmountUpdate />
+            </>
+          ) : (
+            <Outlet />
+          )}
         </div>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
 

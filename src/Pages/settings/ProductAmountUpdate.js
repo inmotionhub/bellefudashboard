@@ -113,7 +113,7 @@ function ProductAmountUpdate() {
           label="Urgent"
           value={urgent}
           variant="outlined"
-          sx={{ mb: 5, width: "100%" }}
+          sx={{ mb: 2, width: "100%" }}
           onChange={(e) => setUrgent(e.target.value)}
         />
         <TextField
@@ -121,7 +121,7 @@ function ProductAmountUpdate() {
           label="HighLighted"
           value={highlighted}
           variant="outlined"
-          sx={{ mb: 5, width: "100%" }}
+          sx={{ mb: 2, width: "100%" }}
           onChange={(e) => setHighlighted(e.target.value)}
         />
         <TextField
@@ -129,7 +129,7 @@ function ProductAmountUpdate() {
           label="Featured"
           value={featured}
           variant="outlined"
-          sx={{ mb: 5, width: "100%" }}
+          sx={{ mb: 2, width: "100%" }}
           onChange={(e) => setFeatured(e.target.value)}
         />
         <Button
