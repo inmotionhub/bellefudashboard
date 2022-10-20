@@ -94,17 +94,6 @@ export default function CreateCategory() {
     }
   };
 
-  const style = {
-    position: "relative",
-    top: 220,
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 900,
-    bgcolor: "background.paper",
-
-    borderRadius: 5,
-    p: 4,
-  };
   const btn = {
     border: "none",
     position: "relative",
@@ -115,56 +104,78 @@ export default function CreateCategory() {
   };
 
   return (
-    <div>
+    <Box
+      sx={{
+        height: { xs: "100%", md: "calc(100vh - 64px)" },
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <PageTitle title="Create Custom Ads" />
 
-      <Toolbar sx={{ mt: 5 }} />
-      <div>
-        {/* <Paper sx={{ width: 300, padding: "20px", margin: "auto 4%" }}> */}
-        <Box>
-          <Paper sx={style}>
-            <form>
-              <div style={{ marginBottom: "5vh", display: "flex" }}>
-                <div>
-                  <FormControl sx={{ width: 450, mb: 5 }}>
-                    <InputLabel id="demo-simple-select-label">
-                      Priority
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={priority}
-                      label="Priority"
-                      onChange={(e) => setPriority(e.target.value)}
-                    >
-                      <MenuItem value="custom">Custom</MenuItem>
-                      <MenuItem value="xbooster">X-booster</MenuItem>
-                      <MenuItem value="2xbooster">XX-booster</MenuItem>
-                      <MenuItem value="3xbooster">XXX-booster</MenuItem>
-                    </Select>
-                  </FormControl>
-                  <TextField
-                    sx={{ mr: 5, mb: 5, width: 450 }}
-                    id="outlined-basic"
-                    label="Enter link address"
-                    // borderColor='green'
-                    type="text"
-                    onChange={(e) => setUrl(e.target.value)}
-                    value={url}
-                    variant="outlined"
-                  />
-                  <TextField
-                    sx={{ mr: 5, width: 450 }}
-                    id="outlined-basic"
-                    label="Description"
-                    // borderColor='green'
-                    type="text"
-                    onChange={(e) => setDes(e.target.value)}
-                    value={des}
-                    variant="outlined"
-                  />
-                </div>
-                <div>
+      <Toolbar />
+      {/* <Paper sx={{ width: 300, padding: "20px", margin: "auto 4%" }}> */}
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+      >
+        <Paper
+          sx={{
+            width: { xs: "100%", md: 800 },
+            bgcolor: "background.paper",
+            borderRadius: 3,
+          }}
+        >
+          <form>
+            <Box
+              sx={{
+                display: { xs: "block", md: "flex" },
+                justifyContent: "space-between",
+                p: 2,
+              }}
+            >
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <FormControl sx={{ width: { xs: "100%", md: 400 }, mb: 2 }}>
+                  <InputLabel id="demo-simple-select-label">
+                    Priority
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={priority}
+                    label="Priority"
+                    onChange={(e) => setPriority(e.target.value)}
+                  >
+                    <MenuItem value="custom">Custom</MenuItem>
+                    <MenuItem value="xbooster">X-booster</MenuItem>
+                    <MenuItem value="2xbooster">XX-booster</MenuItem>
+                    <MenuItem value="3xbooster">XXX-booster</MenuItem>
+                  </Select>
+                </FormControl>
+                <TextField
+                  sx={{ mb: 2, width: { xs: "100%", md: 400 } }}
+                  id="outlined-basic"
+                  label="Enter link address"
+                  type="text"
+                  onChange={(e) => setUrl(e.target.value)}
+                  value={url}
+                  variant="outlined"
+                />
+                <TextField
+                  sx={{ mb: 2, width: { xs: "100%", md: 400 } }}
+                  id="outlined-basic"
+                  label="Description"
+                  type="text"
+                  onChange={(e) => setDes(e.target.value)}
+                  value={des}
+                  variant="outlined"
+                />
+                <Box>
                   <label htmlFor="upload-button-file">
                     <input
                       accept="image/*"
@@ -181,9 +192,9 @@ export default function CreateCategory() {
                       startIcon={<Icons.CloudUpload color="#fff" />}
                       sx={{
                         "&:hover": { backgroundColor: "green" },
-                        width: 300,
-                        height: 60,
-                        m: 3.5,
+                        px: 3,
+                        py: 1,
+                        mt: 3,
                         bgcolor: "#76ba1b",
                         color: "#ffff",
                         // '&:hover': {
@@ -195,46 +206,54 @@ export default function CreateCategory() {
                       Select Image
                     </Button>
                   </label>
+                </Box>
+              </Box>
 
+              <Box>
+                <div>
                   <Box>
                     <div>
                       {preview === undefined || "" ? (
                         <Icons.Image style={{ fontSize: "13vw" }} />
                       ) : (
-                        <img
-                          src={preview}
-                          alt="ajebuta"
+                        <div
                           style={{
                             width: 200,
+                            height: 300,
+                            overflow: "hidden",
                           }}
-                        />
+                        >
+                          <img
+                            src={preview}
+                            alt="ajebuta"
+                            style={{
+                              width: "100%",
+                            }}
+                          />
+                        </div>
                       )}
                     </div>
                   </Box>
                 </div>
-              </div>
-
-              <div style={{ margin: "auto 13%" }}>
                 <Button
                   variant="contained"
-                  style={{
-                    position: "relative",
-                    left: "11vw",
-                    margin: 10,
-                    width: "20vw",
+                  sx={{
+                    my: 2,
+                    width: 200,
+                    py: 1,
                     backgroundColor: colors.bellefuGreen,
                   }}
                   onClick={onSubmit}
                 >
                   Submit
                 </Button>
-              </div>
-            </form>
-          </Paper>
-          <Toolbar sx={{ mt: -5 }} />
-        </Box>
-        {/* </Paper> */}
-      </div>
-    </div>
+              </Box>
+            </Box>
+          </form>
+        </Paper>
+        {/* <Toolbar sx={{ mt: -5 }} /> */}
+      </Box>
+      {/* </Paper> */}
+    </Box>
   );
 }
