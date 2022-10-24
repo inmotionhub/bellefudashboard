@@ -23,10 +23,7 @@ import {
   Divider,
   Select,
 } from "@mui/material";
-
 import { useState, useEffect } from "react";
-// icons
-
 import * as Icons from "@mui/icons-material";
 import {
   colors,
@@ -167,11 +164,17 @@ export default function Review() {
   };
 
   return (
-    <Box>
-      <Box style={{ display: "flex", justifyContent: "space-between" }}>
+    <Box sx={{ width: "100%" }}>
+      <Box
+        sx={{
+          display: { md: "flex" },
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <PageTitle title="Customer Review " variant="h4" component="h2" />
 
-        <FormControl sx={{ m: 1, minWidth: 300 }}>
+        <FormControl sx={{ m: 1, maxWidth: 300, minWidth: 250 }}>
           <InputLabel id="demo-simple-select-helper-label">
             Filter Reviews
           </InputLabel>
@@ -190,7 +193,7 @@ export default function Review() {
         </FormControl>
       </Box>
       <Toolbar />
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ overflowX: "auto" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow sx={{ bgcolor: "#76ba1b" }}>
@@ -488,6 +491,7 @@ export default function Review() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </TableContainer>
+      ;
     </Box>
   );
 }
